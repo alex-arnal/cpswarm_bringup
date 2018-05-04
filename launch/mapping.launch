@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find turtlebot_navigation)/launch/includes/gmapping/gmapping.launch.xml">
+    <arg name="base_frame"  value="robot_0_base_footprint"/>
+    <arg name="odom_frame"  value="robot_0_odom"/>
+    <arg name="scan_topic"  value="robot_0/scan"/>
+  </include>
+</launch>

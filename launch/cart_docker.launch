@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="id_robot" default="robot_0"/>
+    
+    <group ns="$(arg id_robot)" >
+		
+		<node name="pick_and_place" type="pick_and_place.py" pkg="demo_dortmund" output="screen"  required="true">
+		   <param name="robot_base_frame" value="$(arg id_robot)_base_footprint"/>
+		</node>
+		
+		<node name="cart_docker" pkg="robotnik_docker" type="diff_docker_node" respawn="false" output="screen" required="true" clear_params="true">
+			<param name="robot_base_frame" type="string" value="$(arg id_robot)_base_footprint" />
+			
+			<param name="fixed_frame" type="string" value="$(arg id_robot)_odom" />
+			
+			<param name="gain_linear_velocity_x" value="0.5" />
+			<param name="gain_angular_velocity_z" value="2.0" />
+			
+			<param name="maximum_linear_velocity_x" value="0.4" />
+			<param name="maximum_angular_velocity_z" value="0.7" />
+			
+			<param name="threshold_linear_velocity_x" value="0.002" />
+			<param name="threshold_linear_velocity_y" value="0.002" />
+			<param name="threshold_angular_velocity_z" value="0.05" />
+
+			<param name="initial_maximum_distance_x" value="2.0" />
+			<param name="initial_minimum_distance_x" value="0.5" />
+
+			<param name="initial_maximum_arc" value="1" />
+			<param name="initial_maximum_yaw" value="1" />
+			
+			<param name="offset_for_heading_adjustment"  value="0.6" />
+			<param name="free_goal_velocity" value="true" /> <!-- free_goal = true: will reach the goal at "full speed" -->
+			<!-- TODO Check namespace when added to complete -->
+            <remap from="~cmd_vel" to="mobile_base/commands/velocity" />
+		</node>
+		
+    </group>
+
+</launch>
+
